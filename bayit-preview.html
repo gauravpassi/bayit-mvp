@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bayit – AI-Powered Real Estate for Morocco (Preview)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue:        #1A3D6B;
+    --blue-light:  #2B5BA8;
+    --blue-dark:   #0D1B2A;
+    --gold:        #C8973F;
+    --gold-light:  #DEB266;
+    --cream:       #F8F3EB;
+    --dark:        #0D1B2A;
+    --gray:        #5A6472;
+    --border:      #E5E0D8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--cream);color:var(--dark);-webkit-font-smoothing:antialiased}
+  ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+  a{text-decoration:none;color:inherit}
+  img{max-width:100%;display:block}
+
+  /* ─── HEADER ─────────────────────────────────────────────────────────────── */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,27,42,0.95);backdrop-filter:blur(10px);padding:14px 0;box-shadow:0 1px 20px rgba(0,0,0,0.3)}
+  .nav{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+  .logo{display:flex;align-items:center;gap:10px;font-size:1.2rem;font-weight:700;color:#fff}
+  .logo-icon{width:32px;height:32px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.85rem}
+  .logo span.gold{color:var(--gold)}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a{color:rgba(255,255,255,.75);font-size:.875rem;font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:var(--gold)}
+  .btn-chat-nav{display:flex;align-items:center;gap:6px;background:var(--gold);color:#fff;font-size:.85rem;font-weight:600;padding:8px 18px;border-radius:50px;border:none;cursor:pointer;transition:background .2s}
+  .btn-chat-nav:hover{background:var(--gold-light)}
+  .btn-chat-nav svg{width:15px;height:15px}
+
+  /* ─── HERO ───────────────────────────────────────────────────────────────── */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=1800&q=80&auto=format&fit=crop');background-size:cover;background-position:center}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,#0D1B2A 0%,#1A3D6B 60%,#2B5BA8 100%);opacity:.91}
+  .hero-pattern{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23C8973F' stroke-width='0.5' opacity='0.15'/%3E%3C/svg%3E");opacity:.4}
+  .hero-content{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:140px 24px 80px}
+  .hero-inner{max-width:680px}
+  .badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:5px 14px;border-radius:50px;border:1px solid rgba(200,151,63,.3);background:rgba(200,151,63,.1);color:var(--gold);margin-bottom:20px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:20px}
+  .hero h1 .gold-grad{background:linear-gradient(135deg,#A67A2E,#C8973F,#DEB266);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{font-size:1.1rem;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:36px;max-width:480px}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+  .btn-primary{display:flex;align-items:center;gap:10px;background:var(--gold);color:#fff;font-weight:600;font-size:1rem;padding:14px 28px;border-radius:16px;border:none;cursor:pointer;transition:all .25s;box-shadow:0 4px 20px rgba(200,151,63,.3)}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,151,63,.4)}
+  .btn-secondary{display:flex;align-items:center;gap:10px;border:2px solid rgba(255,255,255,.35);color:#fff;font-weight:600;font-size:1rem;padding:14px 28px;border-radius:16px;background:transparent;cursor:pointer;transition:all .25s}
+  .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+  .hero-hint{margin-top:28px;display:flex;align-items:center;gap:12px}
+  .hero-emojis{display:flex}
+  .emoji-bubble{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.85rem;margin-left:-6px}
+  .emoji-bubble:first-child{margin-left:0}
+  .hero-hint p{color:rgba(255,255,255,.55);font-size:.85rem}
+  .hero-hint p em{color:rgba(255,255,255,.82);font-style:italic}
+  .hero-stats{display:flex;gap:48px;margin-top:56px;flex-wrap:wrap}
+  .stat-val{font-size:1.8rem;font-weight:700;color:var(--gold)}
+  .stat-lbl{color:rgba(255,255,255,.5);font-size:.8rem;margin-top:2px}
+
+  /* ─── SECTION COMMONS ─────────────────────────────────────────────────────── */
+  section{padding:90px 0}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px}
+  .section-badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:5px 14px;border-radius:50px;border:1px solid rgba(200,151,63,.25);background:rgba(200,151,63,.1);color:var(--gold);margin-bottom:14px}
+  .section-title{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:700;color:var(--dark);margin-bottom:12px}
+  .section-sub{color:var(--gray);font-size:1.05rem;max-width:480px}
+
+  /* ─── HOW IT WORKS ─────────────────────────────────────────────────────────── */
+  #how{background:#fff}
+  .how-header{text-align:center;margin-bottom:56px}
+  .how-header .section-sub{margin:0 auto}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+  .step{background:var(--cream);border-radius:20px;padding:32px;border:1px solid var(--border);position:relative;transition:all .3s}
+  .step:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(13,27,42,.1)}
+  .step-num{position:absolute;top:16px;right:20px;font-size:3.5rem;font-weight:800;color:rgba(200,151,63,.13);line-height:1;user-select:none}
+  .step-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+  .step-icon.blue{background:linear-gradient(135deg,var(--blue),var(--blue-light))}
+  .step-icon.gold{background:linear-gradient(135deg,#A67A2E,var(--gold))}
+  .step h3{font-size:1.1rem;font-weight:600;color:var(--dark);margin-bottom:10px}
+  .step p{font-size:.88rem;color:var(--gray);line-height:1.65}
+  .how-cta{text-align:center;margin-top:48px}
+
+  /* ─── PROPERTIES ───────────────────────────────────────────────────────────── */
+  #properties{background:var(--cream);background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23C8973F' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E")}
+  .props-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;gap:20px;flex-wrap:wrap}
+  .props-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px}
+  .prop-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 2px 8px rgba(13,27,42,.05);transition:all .25s;cursor:pointer}
+  .prop-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(13,27,42,.13)}
+  .prop-img{position:relative;height:210px;overflow:hidden}
+  .prop-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .prop-card:hover .prop-img img{transform:scale(1.05)}
+  .type-badge{position:absolute;top:12px;left:12px;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:50px}
+  .type-apartment{background:#dbeafe;color:#1d4ed8}
+  .type-villa{background:#d1fae5;color:#065f46}
+  .type-riad{background:#fef3c7;color:#92400e}
+  .type-studio{background:#ede9fe;color:#5b21b6}
+  .type-penthouse{background:#fce7f3;color:#be185d}
+  .type-house{background:#ccfbf1;color:#134e4a}
+  .prop-body{padding:16px}
+  .prop-loc{display:flex;align-items:center;gap:5px;color:var(--gray);font-size:.78rem;margin-bottom:6px}
+  .prop-loc svg{width:12px;height:12px;color:var(--gold)}
+  .prop-title{font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:10px;line-height:1.4}
+  .prop-price{font-size:1.15rem;font-weight:700;color:var(--gold);margin-bottom:12px}
+  .prop-specs{display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--border);font-size:.78rem;color:var(--gray)}
+  .prop-spec{display:flex;align-items:center;gap:4px}
+
+  /* ─── WHY BAYIT ────────────────────────────────────────────────────────────── */
+  #why{background:var(--dark);position:relative;overflow:hidden}
+  #why::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:rgba(42,91,168,.2);filter:blur(80px);pointer-events:none}
+  #why::after{content:'';position:absolute;bottom:-80px;left:-80px;width:320px;height:320px;border-radius:50%;background:rgba(200,151,63,.08);filter:blur(80px);pointer-events:none}
+  .why-header{text-align:center;margin-bottom:56px}
+  .why-badge{display:inline-block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:5px 14px;border-radius:50px;border:1px solid rgba(200,151,63,.3);background:rgba(200,151,63,.08);color:var(--gold);margin-bottom:14px}
+  .why-header h2{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:700;color:#fff;margin-bottom:12px}
+  .why-header h2 .gold-grad{background:linear-gradient(135deg,#A67A2E,#C8973F,#DEB266);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .why-header p{color:rgba(255,255,255,.55);font-size:1rem;max-width:500px;margin:0 auto}
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;position:relative;z-index:1}
+  .why-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:28px;transition:all .3s}
+  .why-card:hover{background:rgba(255,255,255,.09);border-color:rgba(200,151,63,.28)}
+  .why-icon{width:44px;height:44px;border-radius:12px;background:rgba(200,151,63,.14);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:1.2rem;transition:background .3s}
+  .why-card:hover .why-icon{background:rgba(200,151,63,.22)}
+  .why-card h3{font-size:1rem;font-weight:600;color:#fff;margin-bottom:8px}
+  .why-card p{font-size:.84rem;color:rgba(255,255,255,.52);line-height:1.65}
+
+  /* ─── MAP ──────────────────────────────────────────────────────────────────── */
+  #map{background:#fff}
+  .map-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;gap:20px;flex-wrap:wrap}
+  .map-wrap{border-radius:20px;overflow:hidden;height:420px;background:#e8ecef;position:relative;box-shadow:0 4px 24px rgba(13,27,42,.1)}
+  .map-wrap img{width:100%;height:100%;object-fit:cover}
+  .map-marker{position:absolute;width:36px;height:36px;transform:translate(-50%,-100%)}
+  .map-marker-inner{width:32px;height:32px;background:linear-gradient(135deg,#A67A2E,var(--gold));border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.3);transition:transform .2s;cursor:pointer}
+  .map-marker-inner:hover{transform:rotate(-45deg) scale(1.2)}
+  .map-popup{position:absolute;background:#fff;border-radius:12px;padding:12px;width:200px;box-shadow:0 8px 24px rgba(0,0,0,.15);transform:translate(-50%,-100%);margin-top:-50px;pointer-events:none}
+  .map-popup-img{width:100%;height:80px;object-fit:cover;border-radius:8px;margin-bottom:8px}
+  .map-popup h4{font-size:.8rem;font-weight:600;color:var(--dark);margin-bottom:4px}
+  .map-popup p{font-size:.72rem;color:var(--gray);margin-bottom:4px}
+  .map-popup .price{font-size:.85rem;font-weight:700;color:var(--gold)}
+  .map-cities{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .city-chip{display:flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--border);color:var(--gray);font-size:.82rem;padding:6px 14px;border-radius:50px}
+  .city-chip span{color:var(--gold);font-size:.75rem}
+
+  /* ─── FOOTER ───────────────────────────────────────────────────────────────── */
+  footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.07);padding:36px 0}
+  .footer-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .footer-copy{color:rgba(255,255,255,.35);font-size:.82rem}
+  .footer-links{display:flex;gap:20px}
+  .footer-links a{color:rgba(255,255,255,.35);font-size:.78rem;transition:color .2s}
+  .footer-links a:hover{color:var(--gold)}
+
+  /* ─── CHAT WIDGET ──────────────────────────────────────────────────────────── */
+  .chat-fab{position:fixed;bottom:24px;right:24px;z-index:200;width:64px;height:64px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 24px rgba(200,151,63,.5);animation:pulse 2.5s ease-in-out infinite;border:none;color:#fff;transition:background .2s}
+  .chat-fab:hover{background:var(--gold-light)}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,151,63,.5)}50%{box-shadow:0 0 0 14px rgba(200,151,63,0)}}
+  .chat-panel{position:fixed;top:0;right:0;bottom:0;width:420px;background:#fff;z-index:300;display:flex;flex-direction:column;box-shadow:-4px 0 40px rgba(13,27,42,.18);transform:translateX(100%);transition:transform .35s ease}
+  .chat-panel.open{transform:translateX(0)}
+  .chat-header{background:linear-gradient(135deg,#0D1B2A,#1A3D6B,#2B5BA8);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+  .chat-header-left{display:flex;align-items:center;gap:12px}
+  .chat-avatar{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1rem}
+  .chat-title{color:#fff;font-weight:600;font-size:.9rem}
+  .chat-status{color:rgba(255,255,255,.55);font-size:.72rem;display:flex;align-items:center;gap:5px;margin-top:2px}
+  .online-dot{width:6px;height:6px;border-radius:50%;background:#34d399;display:inline-block}
+  .chat-header-btns{display:flex;gap:4px}
+  .icon-btn{background:transparent;border:none;color:rgba(255,255,255,.55);cursor:pointer;padding:6px;border-radius:8px;transition:color .2s;display:flex;align-items:center;justify-content:center}
+  .icon-btn:hover{color:#fff}
+  .chat-messages{flex:1;overflow-y:auto;padding:16px;background:#F5F7FA;display:flex;flex-direction:column;gap:4px}
+  .msg{display:flex;align-items:flex-end;gap:8px;margin-bottom:10px}
+  .msg.user{flex-direction:row-reverse}
+  .msg-avatar{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+  .bubble{max-width:83%;padding:10px 14px;font-size:.85rem;line-height:1.55}
+  .bubble.bot{background:#fff;color:var(--dark);border:1px solid var(--border);border-radius:18px 18px 18px 4px}
+  .bubble.user{background:var(--blue);color:#fff;border-radius:18px 18px 4px 18px}
+  .suggestions{padding:12px 16px;background:#fff;border-top:1px solid var(--border)}
+  .suggestions p{font-size:.75rem;color:var(--gray);font-weight:500;margin-bottom:8px}
+  .sugg-list{display:flex;flex-direction:column;gap:6px}
+  .sugg-btn{display:flex;align-items:center;gap:8px;text-align:left;font-size:.78rem;color:var(--blue);background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:7px 12px;cursor:pointer;transition:all .2s}
+  .sugg-btn:hover{color:var(--gold);border-color:var(--gold);background:rgba(200,151,63,.06)}
+  .chat-input-bar{padding:12px 16px;background:#fff;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center}
+  .chat-input{flex:1;background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:10px 16px;font-size:.85rem;color:var(--dark);outline:none;font-family:inherit;transition:border-color .2s}
+  .chat-input:focus{border-color:var(--blue)}
+  .send-btn{width:40px;height:40px;border-radius:12px;background:var(--gold);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+  .send-btn:hover{background:var(--gold-light)}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:250;display:none}
+  .backdrop.show{display:block}
+
+  /* ─── Chat property cards ──────────────────────────────────────────────────── */
+  .chat-props{margin-top:10px}
+  .chat-props-label{font-size:.72rem;color:var(--gray);margin-bottom:8px}
+  .chat-props-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+  .chat-prop{flex-shrink:0;width:185px;background:#fff;border-radius:12px;border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .chat-prop img{width:100%;height:90px;object-fit:cover}
+  .chat-prop-body{padding:8px}
+  .chat-prop-body h4{font-size:.72rem;font-weight:600;color:var(--dark);margin-bottom:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .chat-prop-body p{font-size:.65rem;color:var(--gray);margin-bottom:4px}
+  .chat-prop-body .price{font-size:.78rem;font-weight:700;color:var(--gold)}
+  .chat-prop-specs{display:flex;gap:8px;font-size:.62rem;color:var(--gray);margin-top:5px;padding-top:5px;border-top:1px solid var(--border)}
+
+  /* ─── BUTTONS SHARED ──────────────────────────────────────────────────────── */
+  .btn-blue{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-weight:600;font-size:.9rem;padding:11px 22px;border-radius:50px;border:none;cursor:pointer;transition:all .25s}
+  .btn-blue:hover{background:var(--blue-light);box-shadow:0 6px 20px rgba(26,61,107,.25)}
+  .btn-outline{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--blue);color:var(--blue);font-weight:600;font-size:.9rem;padding:11px 22px;border-radius:50px;background:transparent;cursor:pointer;transition:all .25s}
+  .btn-outline:hover{background:var(--blue);color:#fff}
+
+  @media(max-width:768px){
+    .nav-links,.btn-chat-nav{display:none}
+    .hero h1{font-size:2rem}
+    .hero-stats{gap:24px}
+    .chat-panel{width:100%;left:0;top:auto;height:92vh;border-radius:24px 24px 0 0}
+    .props-header{flex-direction:column;align-items:flex-start}
+    .map-header{flex-direction:column;align-items:flex-start}
+    .footer-inner{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ─────────────────────────────────────────────────────────────── -->
+<header>
+  <div class="nav">
+    <div class="logo">
+      <div class="logo-icon">B</div>
+      bay<span class="gold">it</span>
+    </div>
+    <div class="nav-links">
+      <a href="#how">How it Works</a>
+      <a href="#properties">Properties</a>
+      <a href="#why">Why Bayit</a>
+      <a href="#map">Map</a>
+    </div>
+    <button class="btn-chat-nav" onclick="openChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Chat with AI
+    </button>
+  </div>
+</header>
+
+<!-- ── HERO ───────────────────────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <span class="badge">AI-Powered Real Estate · Morocco</span>
+      <h1>Find Your Perfect <span class="gold-grad">Property</span><br>with AI</h1>
+      <p>Just describe what you're looking for: budget, city, and style, and our intelligent assistant will match you with the perfect property across Morocco.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openChat()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Start Your Search
+        </button>
+        <button class="btn-secondary" onclick="document.getElementById('properties').scrollIntoView({behavior:'smooth'})">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Browse Properties
+        </button>
+      </div>
+      <div class="hero-hint">
+        <div class="hero-emojis">
+          <div class="emoji-bubble">🏠</div>
+          <div class="emoji-bubble">🌇</div>
+          <div class="emoji-bubble">🏡</div>
+        </div>
+        <p>Try: <em>"3-bedroom apartment in Casablanca under 2M MAD"</em></p>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-val">2,400+</div><div class="stat-lbl">Properties Listed</div></div>
+        <div><div class="stat-val">12</div><div class="stat-lbl">Cities Covered</div></div>
+        <div><div class="stat-val">98%</div><div class="stat-lbl">Client Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ─────────────────────────────────────────────────────────── -->
+<section id="how">
+  <div class="container">
+    <div class="how-header">
+      <span class="section-badge">Simple Process</span>
+      <h2 class="section-title" style="margin-top:6px">How Bayit Works</h2>
+      <p class="section-sub">Finding your dream property in Morocco has never been this effortless.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-icon blue">💬</div>
+        <h3>Describe Your Need</h3>
+        <p>Tell our AI what you're looking for in plain language: budget, city, property type, number of bedrooms. No complicated forms.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-icon gold">⚡</div>
+        <h3>AI Analyses & Matches</h3>
+        <p>Our assistant instantly scans the full property database and shortlists the most relevant options, powered by OpenAI.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-icon blue">🗂</div>
+        <h3>Get Rich Recommendations</h3>
+        <p>Receive curated property cards right inside the chat, with photos, prices, and key specs. Refine any time by just chatting.</p>
+      </div>
+    </div>
+    <div class="how-cta">
+      <button class="btn-blue" onclick="openChat()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Try It Now, It's Free
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED PROPERTIES ──────────────────────────────────────────────────── -->
+<section id="properties">
+  <div class="container">
+    <div class="props-header">
+      <div>
+        <span class="section-badge">Curated Listings</span>
+        <h2 class="section-title" style="margin-top:6px">Featured Properties</h2>
+        <p class="section-sub">Hand-picked properties across Morocco's most sought-after cities.</p>
+      </div>
+      <button class="btn-blue" onclick="openChat()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Find My Match
+      </button>
+    </div>
+    <div class="props-grid">
+      <!-- Card 1 -->
+      <div class="prop-card">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600&q=80&auto=format&fit=crop" alt="Riad Marrakech" loading="lazy" />
+          <span class="type-badge type-riad">Riad</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Medina, Marrakech</div>
+          <div class="prop-title">Authentic Riad in Marrakech Medina</div>
+          <div class="prop-price">2,500,000 MAD</div>
+          <div class="prop-specs">
+            <span class="prop-spec">🛏 4 Beds</span>
+            <span class="prop-spec">🚿 3 Baths</span>
+            <span class="prop-spec">📐 280 m²</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="prop-card">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80&auto=format&fit=crop" alt="Apartment Casablanca" loading="lazy" />
+          <span class="type-badge type-apartment">Apartment</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Maarif, Casablanca</div>
+          <div class="prop-title">Modern Apartment in Casablanca Business District</div>
+          <div class="prop-price">1,800,000 MAD</div>
+          <div class="prop-specs">
+            <span class="prop-spec">🛏 3 Beds</span>
+            <span class="prop-spec">🚿 2 Baths</span>
+            <span class="prop-spec">📐 125 m²</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="prop-card">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80&auto=format&fit=crop" alt="Villa Agadir" loading="lazy" />
+          <span class="type-badge type-villa">Villa</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Secteur Balnéaire, Agadir</div>
+          <div class="prop-title">Beachfront Villa in Agadir</div>
+          <div class="prop-price">4,500,000 MAD</div>
+          <div class="prop-specs">
+            <span class="prop-spec">🛏 5 Beds</span>
+            <span class="prop-spec">🚿 4 Baths</span>
+            <span class="prop-spec">📐 420 m²</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="prop-card">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80&auto=format&fit=crop" alt="Studio Rabat" loading="lazy" />
+          <span class="type-badge type-studio">Studio</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Agdal, Rabat</div>
+          <div class="prop-title">Studio Apartment in Rabat Agdal</div>
+          <div class="prop-price">650,000 MAD</div>
+          <div class="prop-specs">
+            <span class="prop-spec">🛏 1 Bed</span>
+            <span class="prop-spec">🚿 1 Bath</span>
+            <span class="prop-spec">📐 48 m²</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="prop-card">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="House Fes" loading="lazy" />
+          <span class="type-badge type-house">House</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Fes El Bali, Fes</div>
+          <div class="prop-title">Traditional Dar in Fes El Bali</div>
+          <div class="prop-price">950,000 MAD</div>
+          <div class="prop-specs">
+            <span class="prop-spec">🛏 3 Beds</span>
+            <span class="prop-spec">🚿 2 Baths</span>
+            <span class="prop-spec">📐 185 m²</span>
+          </div>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="prop-card">
+        <div class="prop-img">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80&auto=format&fit=crop" alt="Penthouse Casablanca" loading="lazy" />
+          <span class="type-badge type-penthouse">Penthouse</span>
+        </div>
+        <div class="prop-body">
+          <div class="prop-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Anfa, Casablanca</div>
+          <div class="prop-title">Luxury Penthouse in Casablanca Anfa</div>
+          <div class="prop-price">5,200,000 MAD</div>
+          <div class="prop-specs">
+            <span class="prop-spec">🛏 4 Beds</span>
+            <span class="prop-spec">🚿 3 Baths</span>
+            <span class="prop-spec">📐 360 m²</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <p style="color:var(--gray);margin-bottom:14px">These are sample listings. The AI finds properties matching <strong>your exact criteria</strong>.</p>
+      <button class="btn-outline" onclick="openChat()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Search with AI
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY BAYIT ────────────────────────────────────────────────────────────── -->
+<section id="why">
+  <div class="container">
+    <div class="why-header">
+      <span class="why-badge">Why Choose Us</span>
+      <h2>Smarter Than Any <span class="gold-grad">Property Portal</span></h2>
+      <p>Bayit combines the convenience of AI conversation with real, live listings to give you an experience no traditional platform can match.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon">🧠</div><h3>Truly Personalized</h3><p>Unlike static listing portals, Bayit understands your unique needs through conversation and learns your preferences as you refine your search.</p></div>
+      <div class="why-card"><div class="why-icon">⚡</div><h3>Faster Than Browsing</h3><p>Skip hours of scrolling. Describe what you want in one sentence and get an instant, curated shortlist, right inside the chat window.</p></div>
+      <div class="why-card"><div class="why-icon">🗂</div><h3>Rich Property Cards</h3><p>Every recommendation comes as a fully detailed card with photos, price, specs, and location, so you can evaluate at a glance without leaving the chat.</p></div>
+      <div class="why-card"><div class="why-icon">🔄</div><h3>Up-to-Date Listings</h3><p>Properties are sourced from a live database (Google Sheets) your team can update in seconds. Always fresh and always accurate.</p></div>
+      <div class="why-card"><div class="why-icon">🌍</div><h3>All Across Morocco</h3><p>From Marrakech riads to Casablanca penthouses, Agadir villas to Rabat studios. Bayit covers every major city and emerging market.</p></div>
+      <div class="why-card"><div class="why-icon">💬</div><h3>Conversational UX</h3><p>Natural back-and-forth dialogue means you can change your mind, add constraints, or ask follow-up questions, just as you would with a real agent.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAP SECTION ──────────────────────────────────────────────────────────── -->
+<section id="map">
+  <div class="container">
+    <div class="map-header">
+      <div>
+        <span class="section-badge">Property Map</span>
+        <h2 class="section-title" style="margin-top:6px">Explore Across Morocco</h2>
+        <p class="section-sub">Click any marker to see property details. Ask our AI to narrow by location.</p>
+      </div>
+      <button class="btn-blue" onclick="openChat()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Search This Area
+      </button>
+    </div>
+    <!-- Map placeholder using OpenStreetMap static screenshot feel -->
+    <div class="map-wrap" style="position:relative">
+      <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69c07b?w=1200&q=80&auto=format&fit=crop" alt="Morocco Map" style="width:100%;height:420px;object-fit:cover;object-position:center;filter:saturate(0.9) brightness(1.05)"/>
+      <!-- Overlay tint to make it feel more map-like -->
+      <div style="position:absolute;inset:0;background:rgba(240,245,255,.15);pointer-events:none;border-radius:20px"></div>
+      <!-- Map markers -->
+      <div title="Marrakech Riad" onclick="showPopup('marrakech')" style="position:absolute;left:38%;top:52%;cursor:pointer;transform:translate(-50%,-100%)">
+        <div style="width:30px;height:30px;background:linear-gradient(135deg,#A67A2E,#C8973F);border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      </div>
+      <div title="Casablanca" onclick="showPopup('casablanca')" style="position:absolute;left:27%;top:36%;cursor:pointer;transform:translate(-50%,-100%)">
+        <div style="width:30px;height:30px;background:linear-gradient(135deg,#A67A2E,#C8973F);border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      </div>
+      <div title="Agadir" onclick="showPopup('agadir')" style="position:absolute;left:22%;top:63%;cursor:pointer;transform:translate(-50%,-100%)">
+        <div style="width:30px;height:30px;background:linear-gradient(135deg,#A67A2E,#C8973F);border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      </div>
+      <div title="Rabat" onclick="showPopup('rabat')" style="position:absolute;left:27%;top:26%;cursor:pointer;transform:translate(-50%,-100%)">
+        <div style="width:30px;height:30px;background:linear-gradient(135deg,#A67A2E,#C8973F);border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      </div>
+      <div title="Fes" onclick="showPopup('fes')" style="position:absolute;left:48%;top:22%;cursor:pointer;transform:translate(-50%,-100%)">
+        <div style="width:30px;height:30px;background:linear-gradient(135deg,#A67A2E,#C8973F);border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>
+      </div>
+      <!-- Popup -->
+      <div id="map-popup" style="display:none;position:absolute;background:#fff;border-radius:14px;padding:12px;width:200px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:10;left:38%;top:30%">
+        <div id="popup-content"></div>
+        <button onclick="document.getElementById('map-popup').style.display='none'" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:1rem;color:#999">×</button>
+      </div>
+    </div>
+    <div class="map-cities" style="margin-top:18px">
+      <div class="city-chip"><span>📍</span> Marrakech</div>
+      <div class="city-chip"><span>📍</span> Casablanca</div>
+      <div class="city-chip"><span>📍</span> Agadir</div>
+      <div class="city-chip"><span>📍</span> Rabat</div>
+      <div class="city-chip"><span>📍</span> Fes</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="logo" style="color:#fff">
+      <div class="logo-icon">B</div>
+      bay<span class="gold">it</span>
+    </div>
+    <p class="footer-copy">© 2026 Bayit · AI-Powered Real Estate · Morocco</p>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── CHAT WIDGET ──────────────────────────────────────────────────────────── -->
+<button class="chat-fab" id="chat-fab" onclick="openChat()" aria-label="Open chat">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<div class="backdrop" id="backdrop" onclick="closeChat()"></div>
+
+<div class="chat-panel" id="chat-panel">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-avatar">✨</div>
+      <div>
+        <div class="chat-title">Bayit AI</div>
+        <div class="chat-status"><span class="online-dot"></span> Online · Morocco Real Estate</div>
+      </div>
+    </div>
+    <div class="chat-header-btns">
+      <button class="icon-btn" onclick="resetChat()" title="New chat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.54"/></svg>
+      </button>
+      <button class="icon-btn" onclick="closeChat()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div style="height:3px;background:#E5E0D8;flex-shrink:0">
+    <div id="progress-bar" style="height:100%;background:#C8973F;width:0%;transition:width .5s ease"></div>
+  </div>
+
+  <!-- Messages -->
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg">
+      <div class="msg-avatar">✨</div>
+      <div class="bubble bot">
+        <strong>مرحباً! Welcome to Bayit 🏠</strong><br><br>
+        I'm your personal property assistant for Morocco. I'll find your perfect home with just a few quick questions.<br><br>
+        Let's start: what's your <strong>budget</strong> for this property? (e.g. "2 million MAD" or "under 1.5M MAD")
+      </div>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="chat-input-bar">
+    <input type="text" class="chat-input" id="chat-input" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')sendMessage()" />
+    <button class="send-btn" onclick="sendMessage()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+// ─── Map popups ──────────────────────────────────────────────────────────────
+const popupData = {
+  marrakech: {title:'Authentic Riad – Medina',city:'Marrakech',price:'2,500,000 MAD',img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=300&q=75&auto=format&fit=crop',beds:4,baths:3,sqm:280},
+  casablanca:{title:'Modern Apartment – Maarif',city:'Casablanca',price:'1,800,000 MAD',img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=75&auto=format&fit=crop',beds:3,baths:2,sqm:125},
+  agadir:    {title:'Beachfront Villa',city:'Agadir',price:'4,500,000 MAD',img:'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=300&q=75&auto=format&fit=crop',beds:5,baths:4,sqm:420},
+  rabat:     {title:'Studio – Agdal',city:'Rabat',price:'650,000 MAD',img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=300&q=75&auto=format&fit=crop',beds:1,baths:1,sqm:48},
+  fes:       {title:'Traditional Dar – Fes El Bali',city:'Fes',price:'950,000 MAD',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=75&auto=format&fit=crop',beds:3,baths:2,sqm:185},
+};
+function showPopup(city){
+  const d=popupData[city];
+  const popup=document.getElementById('map-popup');
+  document.getElementById('popup-content').innerHTML=`
+    <img src="${d.img}" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-bottom:8px"/>
+    <div style="font-size:.78rem;font-weight:600;color:#0D1B2A;margin-bottom:3px">${d.title}</div>
+    <div style="font-size:.7rem;color:#5A6472;margin-bottom:4px">📍 ${d.city}</div>
+    <div style="font-size:.85rem;font-weight:700;color:#C8973F;margin-bottom:6px">${d.price}</div>
+    <div style="display:flex;gap:8px;font-size:.65rem;color:#5A6472">
+      <span>🛏 ${d.beds}</span><span>🚿 ${d.baths}</span><span>📐 ${d.sqm}m²</span>
+    </div>`;
+  popup.style.display='block';
+}
+
+// ─── Chat widget, conversational state machine ───────────────────────────────
+
+// All available sample properties
+const ALL_PROPS = [
+  {id:'1',title:'Authentic Riad in Marrakech Medina',loc:'Medina, Marrakech',city:'marrakech',type:'riad',price:2500000,beds:4,baths:3,sqm:280,img:'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=300&q=75&auto=format&fit=crop'},
+  {id:'2',title:'Modern Apartment – Maarif',loc:'Maarif, Casablanca',city:'casablanca',type:'apartment',price:1800000,beds:3,baths:2,sqm:125,img:'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=75&auto=format&fit=crop'},
+  {id:'3',title:'Beachfront Villa in Agadir',loc:'Secteur Balnéaire, Agadir',city:'agadir',type:'villa',price:4500000,beds:5,baths:4,sqm:420,img:'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=300&q=75&auto=format&fit=crop'},
+  {id:'4',title:'Studio Apartment – Agdal',loc:'Agdal, Rabat',city:'rabat',type:'studio',price:650000,beds:1,baths:1,sqm:48,img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=300&q=75&auto=format&fit=crop'},
+  {id:'5',title:'Traditional Dar – Fes El Bali',loc:'Fes El Bali, Fes',city:'fes',type:'house',price:950000,beds:3,baths:2,sqm:185,img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&q=75&auto=format&fit=crop'},
+  {id:'6',title:'Luxury Penthouse – Anfa',loc:'Anfa, Casablanca',city:'casablanca',type:'penthouse',price:5200000,beds:4,baths:3,sqm:360,img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300&q=75&auto=format&fit=crop'},
+];
+
+// Conversation state
+let state = { budget:null, city:null, type:null, bedrooms:null, step:'budget', userCount:0 };
+
+function openChat(){
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('backdrop').classList.add('show');
+  document.getElementById('chat-fab').style.display='none';
+  setTimeout(()=>document.getElementById('chat-input').focus(),300);
+}
+function closeChat(){
+  document.getElementById('chat-panel').classList.remove('open');
+  document.getElementById('backdrop').classList.remove('show');
+  document.getElementById('chat-fab').style.display='flex';
+}
+function resetChat(){
+  state={budget:null,city:null,type:null,bedrooms:null,step:'budget',userCount:0};
+  document.getElementById('progress-bar').style.width='0%';
+  document.getElementById('chat-input').placeholder='Type your answer…';
+  const msgs=document.getElementById('chat-messages');
+  msgs.innerHTML=`<div class="msg"><div class="msg-avatar">✨</div><div class="bubble bot"><strong>مرحباً! Welcome to Bayit 🏠</strong><br><br>I'm your personal property assistant for Morocco. I'll find your perfect home with just a few quick questions.<br><br>Let's start: what's your <strong>budget</strong> for this property? (e.g. "2 million MAD" or "under 1.5M MAD")</div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function updateProgress(){
+  const done=[state.budget,state.city,state.type,state.bedrooms].filter(Boolean).length;
+  document.getElementById('progress-bar').style.width=(done/4*100)+'%';
+}
+
+function addMessage(role,html){
+  const msgs=document.getElementById('chat-messages');
+  const div=document.createElement('div');
+  div.className='msg '+(role==='user'?'user':'');
+  div.innerHTML=role==='bot'
+    ?`<div class="msg-avatar">✨</div><div class="bubble bot">${html}</div>`
+    :`<div class="bubble user">${html}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+
+function addTyping(){
+  const msgs=document.getElementById('chat-messages');
+  const div=document.createElement('div');
+  div.className='msg'; div.id='typing-ind';
+  div.innerHTML=`<div class="msg-avatar">✨</div><div class="bubble bot" style="padding:10px 14px"><span style="display:flex;gap:5px;align-items:center;height:16px"><span style="width:7px;height:7px;border-radius:50%;background:#999;animation:b 1.4s ease-in-out infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#999;animation:b 1.4s ease-in-out .2s infinite"></span><span style="width:7px;height:7px;border-radius:50%;background:#999;animation:b 1.4s ease-in-out .4s infinite"></span></span><style>@keyframes b{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-6px);opacity:1}}</style></div>`;
+  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+
+function buildPropCards(props){
+  if(!props||!props.length) return '';
+  const cards=props.map(p=>`
+    <div class="chat-prop">
+      <img src="${p.img}" alt="${p.title}" loading="lazy"/>
+      <div class="chat-prop-body">
+        <h4>${p.title}</h4>
+        <p>📍 ${p.loc}</p>
+        <div class="price">${p.price.toLocaleString()} MAD</div>
+        <div class="chat-prop-specs"><span>🛏 ${p.beds}</span><span>🚿 ${p.baths}</span><span>📐 ${p.sqm}m²</span></div>
+      </div>
+    </div>`).join('');
+  return `<div class="chat-props"><div class="chat-props-label">${props.length} matching ${props.length===1?'property':'properties'} found for you:</div><div class="chat-props-scroll">${cards}</div></div>`;
+}
+
+// Extract criteria from user text
+function parseBudget(t){
+  // "2 million" / "2M" / "2,000,000" / "under 2M" etc.
+  const m=t.match(/(\d+(?:\.\d+)?)\s*m(?:illion)?/i)||t.match(/(\d[\d\s,]*)\s*(?:mad|dh)/i)||t.match(/under\s+(\d+)/i)||t.match(/(\d[\d,]+)/);
+  if(!m) return null;
+  let v=parseFloat(m[1].replace(/[\s,]/g,''));
+  if(v<5000) v=v*1000000; // "2" or "2M" → 2000000
+  return v>10000?v:null;
+}
+function parseCity(t){
+  const map={'casablanca':'Casablanca','casa':'Casablanca','marrakech':'Marrakech','rabat':'Rabat','agadir':'Agadir','fes':'Fes','fez':'Fes','tangier':'Tangier','tanger':'Tangier'};
+  for(const[k,v] of Object.entries(map)) if(t.includes(k)) return v;
+  return null;
+}
+function parseType(t){
+  if(t.includes('apartment')||t.includes('flat')) return 'apartment';
+  if(t.includes('villa')) return 'villa';
+  if(t.includes('riad')) return 'riad';
+  if(t.includes('studio')) return 'studio';
+  if(t.includes('penthouse')) return 'penthouse';
+  if(t.includes('house')||t.includes('dar')) return 'house';
+  return null;
+}
+function parseBedrooms(t){
+  const m=t.match(/(\d)\s*(?:bed|bedroom|chambre)/i)||t.match(/^(\d)$/);
+  return m?parseInt(m[1]):null;
+}
+
+// Main conversational logic, returns next bot message
+function getNextResponse(userText){
+  const t=userText.toLowerCase();
+
+  // Try to extract any criteria from this message
+  const b=parseBudget(t), c=parseCity(t), tp=parseType(t), br=parseBedrooms(t);
+  if(b&&!state.budget) state.budget=b;
+  if(c&&!state.city)   state.city=c;
+  if(tp&&!state.type)  state.type=tp;
+  if(br&&!state.bedrooms) state.bedrooms=br;
+
+  updateProgress();
+
+  // Check if we have enough to search (budget + city + type)
+  const canSearch=state.budget&&state.city&&state.type;
+  if(canSearch){
+    // Match properties
+    const matches=ALL_PROPS.filter(p=>{
+      if(state.city&&p.city!==state.city.toLowerCase()) return false;
+      if(state.type&&p.type!==state.type.toLowerCase()) return false;
+      if(state.budget&&p.price>state.budget*1.1) return false;
+      if(state.bedrooms&&p.beds<state.bedrooms) return false;
+      return true;
+    });
+
+    const budgetFmt=(state.budget/1e6).toFixed(1)+'M MAD';
+    const typeLabel=state.type.charAt(0).toUpperCase()+state.type.slice(1);
+    const bedsText=state.bedrooms?`, ${state.bedrooms}-bedroom`:'';
+
+    if(matches.length>0){
+      state.step='done';
+      document.getElementById('progress-bar').style.width='100%';
+      document.getElementById('chat-input').placeholder='Ask a follow-up or start a new search…';
+      const summary=`🎯 Here are the best <strong>${typeLabel}${bedsText}</strong> properties in <strong>${state.city}</strong> within your budget of <strong>${budgetFmt}</strong>:`;
+      return {msg:summary+buildPropCards(matches.slice(0,3)),done:true};
+    } else {
+      state.step='done';
+      return {msg:`I searched but couldn't find a <strong>${typeLabel}</strong> in <strong>${state.city}</strong> within <strong>${budgetFmt}</strong>. Would you like to try a <strong>higher budget</strong>, a <strong>different city</strong>, or a <strong>different property type</strong>?`,done:false};
+    }
+  }
+
+  // Ask next missing question, one at a time
+  if(!state.budget){
+    if(b===null&&state.userCount>0)
+      return {msg:`I didn't quite catch the budget. Could you share a number? (e.g. <strong>"2 million MAD"</strong> or <strong>"800,000 MAD"</strong>)`,done:false};
+    return {msg:`Got it! And which <strong>city</strong> are you looking in? We cover Marrakech, Casablanca, Rabat, Agadir, Fes, and more.`,done:false};
+  }
+  if(!state.city){
+    if(c===null&&state.userCount>1)
+      return {msg:`Which city are you interested in? (e.g. <strong>Marrakech</strong>, <strong>Casablanca</strong>, <strong>Rabat</strong>, <strong>Agadir</strong>, <strong>Fes</strong>)`,done:false};
+    return {msg:`${state.city} is a great choice! What <strong>type of property</strong> are you looking for? (Apartment, Villa, Riad, Studio, Penthouse, or House)`,done:false};
+  }
+  if(!state.type){
+    if(tp===null&&state.userCount>2)
+      return {msg:`What kind of property interests you? (<strong>Apartment</strong>, <strong>Villa</strong>, <strong>Riad</strong>, <strong>Studio</strong>, <strong>Penthouse</strong>, or <strong>House</strong>)`,done:false};
+    const typeLabel=state.type?state.type.charAt(0).toUpperCase()+state.type.slice(1):'property';
+    return {msg:`A <strong>${typeLabel}</strong>, excellent taste! Last question: how many <strong>bedrooms</strong> do you need?`,done:false};
+  }
+  if(!state.bedrooms){
+    return {msg:`How many <strong>bedrooms</strong> do you need? (1, 2, 3…)`,done:false};
+  }
+
+  return {msg:`Let me search for you…`,done:false};
+}
+
+function sendMessage(){
+  const inp=document.getElementById('chat-input');
+  const text=inp.value.trim();
+  if(!text||state.step==='typing') return;
+  inp.value='';
+  state.userCount++;
+  addMessage('user',text);
+  const typing=addTyping();
+  state.step='typing';
+
+  const delay=900+Math.random()*600;
+  setTimeout(()=>{
+    typing.remove();
+    const resp=getNextResponse(text);
+    addMessage('bot',resp.msg);
+    if(!resp.done) state.step=state.budget?state.city?state.type?'bedrooms':'type':'city':'budget';
+    else state.step='done';
+  }, delay);
+}
+
+// Close popup on outside click
+document.addEventListener('click',function(e){
+  const popup=document.getElementById('map-popup');
+  if(popup.style.display==='block' && !popup.contains(e.target) && !e.target.closest('[onclick*="showPopup"]')){
+    popup.style.display='none';
+  }
+});
+</script>
+</body>
+</html>
