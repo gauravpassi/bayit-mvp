@@ -23,7 +23,7 @@ const VALUES = [
     icon: Shield,
     title: 'Up-to-Date Listings',
     description:
-      'Properties are sourced from a live database (Google Sheets or Airtable) that your team can update in seconds. Always fresh and always accurate.',
+      'Properties are sourced from a live database that your team can update in seconds. Always fresh and always accurate.',
   },
   {
     icon: Globe,
@@ -41,23 +41,21 @@ const VALUES = [
 
 export default function WhyBayit() {
   return (
-    <section id="why-bayit" className="py-24 bg-bayit-dark relative overflow-hidden">
-      {/* Decorative circles */}
-      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-bayit-blue/20 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-bayit-gold/10 blur-3xl pointer-events-none" />
+    <section id="why-bayit" className="py-24 bg-white relative overflow-hidden">
+      {/* Decorative blobs */}
+      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-bayit-blue/6 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-bayit-blue-light/8 blur-3xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full border border-bayit-gold/30 text-bayit-gold mb-4">
-            Why Choose Us
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mt-3">
-            Smarter Than Any{' '}
-            <span className="text-gradient-gold">Property Portal</span>
+          <span className="section-badge mb-4">Why Choose Us</span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-bayit-dark mt-3">
+            More than a listing.{' '}
+            <span className="text-bayit-blue italic">A guide.</span>
           </h2>
-          <p className="text-white/60 mt-4 max-w-lg mx-auto text-lg">
+          <p className="text-bayit-gray mt-4 max-w-lg mx-auto text-lg">
             Bayit combines the convenience of AI conversation with real, live listings to give you an experience no traditional platform can match.
           </p>
         </div>
@@ -67,13 +65,13 @@ export default function WhyBayit() {
           {VALUES.map(({ icon: Icon, title, description }) => (
             <div
               key={title}
-              className="group bg-white/5 hover:bg-white/10 border border-white/8 hover:border-bayit-gold/30 rounded-2xl p-7 transition-all duration-300"
+              className="group bg-white hover:shadow-card-hover border border-bayit-border hover:border-bayit-blue/25 rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="w-11 h-11 rounded-xl bg-bayit-gold/15 flex items-center justify-center mb-5 group-hover:bg-bayit-gold/25 transition-colors">
-                <Icon size={20} className="text-bayit-gold" />
+              <div className="w-11 h-11 rounded-xl bg-bayit-blue-50 flex items-center justify-center mb-5 group-hover:bg-bayit-blue/10 transition-colors">
+                <Icon size={20} className="text-bayit-blue" />
               </div>
-              <h3 className="text-white font-semibold text-lg mb-2">{title}</h3>
-              <p className="text-white/55 text-sm leading-relaxed">{description}</p>
+              <h3 className="text-bayit-dark font-semibold text-lg mb-2">{title}</h3>
+              <p className="text-bayit-gray text-sm leading-relaxed">{description}</p>
             </div>
           ))}
         </div>

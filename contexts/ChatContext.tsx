@@ -1,30 +1,39 @@
 'use client';
 
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface ChatContextValue {
-  isOpen: boolean;
-  openChat: () => void;
-  closeChat: () => void;
+  isOpen:     boolean;           // always false — chat is now a dedicated page
+  openChat:   (query?: string) => void;
+  closeChat:  () => void;
   toggleChat: () => void;
 }
 
 const ChatContext = createContext<ChatContextValue>({
-  isOpen: false,
-  openChat: () => {},
-  closeChat: () => {},
+  isOpen:     false,
+  openChat:   () => {},
+  closeChat:  () => {},
   toggleChat: () => {},
 });
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-  const openChat  = useCallback(() => setIsOpen(true),  []);
-  const closeChat = useCallback(() => setIsOpen(false), []);
-  const toggleChat = useCallback(() => setIsOpen((v) => !v), []);
+  // Navigate to the dedicated chat page, optionally pre-filling a query
+  const openChat = useCallback((query?: string) => {
+    if (query?.trim()) {
+      router.push(`/chat?q=${encodeURIComponent(query.trim())}`);
+    } else {
+      router.push('/chat');
+    }
+  }, [router]);
+
+  const closeChat  = useCallback(() => {}, []);
+  const toggleChat = useCallback(() => {}, []);
 
   return (
-    <ChatContext.Provider value={{ isOpen, openChat, closeChat, toggleChat }}>
+    <ChatContext.Provider value={{ isOpen: false, openChat, closeChat, toggleChat }}>
       {children}
     </ChatContext.Provider>
   );

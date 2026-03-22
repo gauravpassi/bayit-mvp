@@ -1,24 +1,43 @@
 import type { Metadata } from 'next';
+import { Playfair_Display, DM_Sans } from 'next/font/google';
 import './globals.css';
-import { ChatProvider } from '@/contexts/ChatContext';
-import ChatWidget from '@/components/ChatWidget';
+import { ChatProvider }         from '@/contexts/ChatContext';
+import { PropertyModalProvider } from '@/contexts/PropertyModalContext';
+import CacheWarmer               from '@/components/CacheWarmer';
+
+// Serif for headings — warmth, authority, subtle luxury
+const playfair = Playfair_Display({
+  subsets:  ['latin'],
+  variable: '--font-playfair',
+  display:  'swap',
+  weight:   ['400', '500', '600', '700'],
+});
+
+// Clean humanist sans for body — readable, friendly
+const dmSans = DM_Sans({
+  subsets:  ['latin'],
+  variable: '--font-dm-sans',
+  display:  'swap',
+  weight:   ['300', '400', '500', '600', '700'],
+});
 
 export const metadata: Metadata = {
-  title: 'Bayit – Find Your Perfect Property in Morocco',
+  title: 'bAytI — Discover Your Home in Morocco',
   description:
-    'AI-powered real estate search for Morocco. Describe what you need and let Bayit\'s intelligent assistant find your perfect home in Marrakech, Casablanca, Rabat, Agadir, and more.',
+    'Thoughtfully curated real estate across Morocco. Tell bAytI what you\'re looking for and discover homes that feel right.',
   keywords: 'Morocco real estate, property Morocco, buy house Morocco, riad Marrakech, apartment Casablanca',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="bg-bayit-cream text-bayit-dark antialiased">
-        <ChatProvider>
-          {children}
-          {/* Chat widget is always present so it can be opened from anywhere */}
-          <ChatWidget />
-        </ChatProvider>
+    <html lang="en" className={`scroll-smooth ${playfair.variable} ${dmSans.variable}`}>
+      <body className="bg-white text-bayit-dark antialiased font-sans">
+        <PropertyModalProvider>
+          <ChatProvider>
+            {children}
+            <CacheWarmer />
+          </ChatProvider>
+        </PropertyModalProvider>
       </body>
     </html>
   );

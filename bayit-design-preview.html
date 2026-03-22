@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>bAytI — Design Preview v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:        #F4F7FA;
+  --surface:   #FFFFFF;
+  --surface2:  #F8FAFB;
+  --tx1:       #1A1C2E;
+  --tx2:       #5A6072;
+  --tx3:       #9BA3AF;
+  --blue:      #5B9BD5;
+  --blue-d:    #4A84BE;
+  --blue-soft: #EBF4FC;
+  --border:    #E4E8EF;
+  --border-lt: #F0F3F7;
+  --sh-xs: 0 1px 3px rgba(0,0,0,0.05);
+  --sh-sm: 0 2px 8px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
+  --sh-md: 0 4px 20px rgba(0,0,0,0.09),0 2px 4px rgba(0,0,0,0.04);
+  --sh-lg: 0 8px 32px rgba(0,0,0,0.11),0 2px 8px rgba(0,0,0,0.05);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,sans-serif;background:#DDE3EB;color:var(--tx1);-webkit-font-smoothing:antialiased}
+
+/* ── Page switcher ── */
+.switcher{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(26,28,46,0.96);backdrop-filter:blur(14px);
+  padding:0 20px;display:flex;align-items:center;height:46px;gap:6px;
+}
+.sw-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.08em;text-transform:uppercase;margin-right:8px;white-space:nowrap}
+.sw-btn{font-size:12px;font-weight:500;padding:5px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);background:transparent;cursor:pointer;transition:all .15s;white-space:nowrap}
+.sw-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.sw-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.sw-note{margin-left:auto;font-size:11px;color:rgba(255,255,255,.28);font-style:italic;white-space:nowrap}
+
+.page{display:none;padding-top:46px;min-height:100vh}
+.page.active{display:block}
+
+/* ════════════════════════
+   SHARED NAV
+════════════════════════ */
+.site-nav{
+  background:var(--surface);
+  padding:0 28px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--sh-xs);
+}
+.nav-logo{display:flex;align-items:center;gap:8px;font-size:19px;font-weight:800;color:var(--tx1);letter-spacing:-.3px;text-decoration:none}
+.nav-logo-icon{width:30px;height:30px;background:var(--blue-soft);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo-icon svg{width:16px;height:16px;color:var(--blue)}
+.nav-logo .b{color:var(--blue)}
+.nav-links{display:flex;gap:26px}
+.nav-links a{font-size:13.5px;color:var(--tx2);text-decoration:none;transition:color .14s}
+.nav-links a:hover{color:var(--tx1)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-search-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .14s}
+.nav-search-icon:hover{background:var(--bg)}
+.nav-search-icon svg{width:18px;height:18px;color:var(--tx2)}
+.btn-signup{font-size:13px;font-weight:600;color:#fff;background:var(--blue);border:none;padding:8px 20px;border-radius:8px;cursor:pointer;transition:background .14s}
+.btn-signup:hover{background:var(--blue-d)}
+
+/* ════════════════════════
+   PAGE 1 — HOMEPAGE
+════════════════════════ */
+#p1{background:var(--bg)}
+
+/* ── HERO: map background ── */
+.hero-section{
+  position:relative;
+  height:480px;
+  overflow:hidden;
+  background:#E8F0F8;
+}
+/* Map illustration — grid of streets */
+.map-bg{
+  position:absolute;inset:0;
+  background-color:#EBF2F9;
+  background-image:
+    /* major roads horizontal */
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.9) 59px, rgba(255,255,255,0.9) 63px),
+    /* major roads vertical */
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.9) 59px, rgba(255,255,255,0.9) 63px),
+    /* minor roads horizontal */
+    repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255,255,255,0.45) 19px, rgba(255,255,255,0.45) 20px),
+    /* minor roads vertical */
+    repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.45) 19px, rgba(255,255,255,0.45) 20px);
+  opacity:.85;
+}
+/* Green park patches */
+.map-bg::before{
+  content:'';position:absolute;
+  width:90px;height:60px;background:rgba(180,220,170,.45);border-radius:10px;
+  top:38%;left:58%;
+}
+.map-bg::after{
+  content:'';position:absolute;
+  width:60px;height:40px;background:rgba(180,220,170,.35);border-radius:8px;
+  top:18%;left:72%;
+}
+/* Light overlay for readability */
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(235,242,249,.88) 0%,rgba(235,242,249,.55) 50%,rgba(235,242,249,.1) 100%);
+}
+
+/* Price bubbles on map */
+.map-pin-bubble{
+  position:absolute;
+  background:var(--surface);
+  border:1.5px solid rgba(91,155,213,.2);
+  border-radius:999px;
+  padding:5px 12px;
+  font-size:12px;font-weight:700;color:var(--tx1);
+  box-shadow:var(--sh-sm);
+  white-space:nowrap;
+  cursor:pointer;
+}
+.map-pin-dot{
+  position:absolute;
+  width:10px;height:10px;
+  background:var(--blue);border:2px solid #fff;
+  border-radius:50%;box-shadow:0 0 0 3px rgba(91,155,213,.2);
+}
+
+/* Hero text content */
+.hero-content{
+  position:relative;z-index:2;
+  max-width:1200px;margin:0 auto;padding:52px 32px 0;
+}
+.hero-content h1{
+  font-size:42px;font-weight:800;letter-spacing:-1.2px;
+  line-height:1.12;color:var(--tx1);
+  max-width:480px;margin-bottom:14px;
+}
+.hero-content p{
+  font-size:16px;color:var(--tx2);margin-bottom:28px;max-width:340px;line-height:1.6;
+}
+
+/* Search widget */
+.search-widget{
+  background:var(--surface);border-radius:14px;
+  box-shadow:var(--sh-md);
+  overflow:hidden;
+  max-width:680px;
+}
+.search-tabs{display:flex;border-bottom:1px solid var(--border-lt)}
+.stab{
+  display:flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:600;
+  padding:11px 20px;cursor:pointer;
+  border:none;background:transparent;font-family:inherit;
+  color:var(--tx3);transition:all .14s;
+}
+.stab.on{background:var(--blue);color:#fff}
+.stab:not(.on):hover{background:var(--surface2);color:var(--tx2)}
+.stab svg{width:14px;height:14px}
+.search-row{display:flex;align-items:center;padding:10px 12px;gap:10px}
+.search-city{
+  flex:1;border:1.5px solid var(--border);border-radius:8px;
+  padding:9px 14px;font-size:13.5px;font-family:inherit;color:var(--tx1);
+  outline:none;background:var(--surface);
+}
+.search-city::placeholder{color:var(--tx3)}
+.search-city:focus{border-color:var(--blue)}
+.search-select{
+  border:1.5px solid var(--border);border-radius:8px;
+  padding:9px 30px 9px 14px;font-size:13.5px;font-family:inherit;color:var(--tx2);
+  background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239BA3AF' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+  outline:none;cursor:pointer;appearance:none;
+}
+.btn-search{
+  background:var(--blue);color:#fff;border:none;border-radius:8px;
+  padding:10px 22px;font-size:14px;font-weight:600;font-family:inherit;
+  cursor:pointer;white-space:nowrap;transition:background .14s;
+}
+.btn-search:hover{background:var(--blue-d)}
+
+/* ── Feature strip ── */
+.feature-strip{
+  background:var(--surface);
+  border-top:1px solid var(--border-lt);
+  border-bottom:1px solid var(--border-lt);
+  padding:28px 32px;
+}
+.feature-strip-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.feats-row{display:flex;gap:48px}
+.feat-item{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:80px}
+.feat-circle{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--blue-soft);
+  display:flex;align-items:center;justify-content:center;
+}
+.feat-circle svg{width:24px;height:24px;color:var(--blue)}
+.feat-label{font-size:12px;color:var(--tx2);text-align:center;line-height:1.4;font-weight:500}
+
+/* AI intro bubble (right side of feature strip) */
+.ai-intro-bubble{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--surface);border:1px solid var(--border-lt);
+  border-radius:14px;padding:14px 16px;
+  box-shadow:var(--sh-sm);max-width:260px;
+}
+.ai-intro-av{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--blue-d));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;
+}
+.ai-intro-text{font-size:13px;color:var(--tx2);line-height:1.55}
+.ai-intro-text strong{display:block;font-size:13.5px;color:var(--tx1);margin-bottom:3px}
+.chat-bubble-icon{
+  width:28px;height:28px;border-radius:50%;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;margin-top:4px;flex-shrink:0;
+}
+.chat-bubble-icon svg{width:14px;height:14px;color:#fff}
+
+/* ── Property cards section ── */
+.listings-section{max-width:1200px;margin:0 auto;padding:44px 32px 16px}
+.prop-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.prop-card{
+  background:var(--surface);border-radius:14px;
+  overflow:hidden;cursor:pointer;
+  box-shadow:var(--sh-xs);border:1px solid var(--border-lt);
+  transition:all .2s;
+}
+.prop-card:hover{box-shadow:var(--sh-lg);transform:translateY(-3px)}
+.card-img{
+  width:100%;height:190px;display:block;
+  object-fit:cover;
+  background:linear-gradient(135deg,#BDD4E8,#8FBAD8);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:rgba(255,255,255,.55);position:relative;
+}
+.card-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(26,28,46,.12) 100%)}
+.card-info{padding:14px 16px 16px}
+.card-price{font-size:17px;font-weight:800;color:var(--tx1);margin-bottom:3px;letter-spacing:-.2px}
+.card-price span{font-size:13px;font-weight:400;color:var(--tx3)}
+.card-loc{font-size:13px;color:var(--tx2);margin-bottom:10px}
+.card-specs{display:flex;align-items:center;gap:14px;font-size:12px;color:var(--tx3)}
+.card-spec{display:flex;align-items:center;gap:4px}
+.card-spec-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);opacity:.6}
+.card-spec-sq{width:8px;height:8px;border:1.5px solid var(--tx3);border-radius:1px}
+
+.view-all{
+  text-align:center;padding:24px;
+  font-size:14px;font-weight:500;color:var(--tx2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:color .14s;
+}
+.view-all:hover{color:var(--blue)}
+.view-all svg{width:13px;height:13px}
+
+/* Floating AI chat bubble */
+.chat-float{
+  position:fixed;bottom:28px;right:28px;z-index:500;
+}
+.chat-float-bubble{
+  background:var(--surface);border:1px solid var(--border-lt);
+  border-radius:16px;padding:14px 16px;
+  box-shadow:var(--sh-lg);max-width:240px;
+  display:flex;align-items:flex-start;gap:10px;
+  margin-bottom:10px;
+  position:relative;
+}
+.chat-float-bubble::after{
+  content:'';position:absolute;bottom:-7px;right:24px;
+  width:12px;height:12px;background:var(--surface);
+  border-right:1px solid var(--border-lt);border-bottom:1px solid var(--border-lt);
+  transform:rotate(45deg);
+}
+.float-av{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--blue-d));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;
+}
+.float-text{font-size:12.5px;color:var(--tx2);line-height:1.55}
+.float-text strong{font-size:13px;color:var(--tx1);display:block;margin-bottom:2px}
+.chat-float-btn{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(91,155,213,.45);
+  cursor:pointer;margin-left:auto;transition:background .14s;
+}
+.chat-float-btn:hover{background:var(--blue-d)}
+.chat-float-btn svg{width:22px;height:22px;color:#fff}
+
+/* ════════════════════════
+   PAGE 2 — MAP+LIST
+════════════════════════ */
+#p2{background:var(--bg)}
+.split-wrap{height:calc(100vh - 104px);display:flex}
+.list-panel{width:420px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.list-filters{padding:12px 16px;border-bottom:1px solid var(--border-lt);display:flex;gap:7px;flex-wrap:wrap}
+.fchip{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:500;color:var(--tx2);background:var(--surface2);border:1.5px solid var(--border);padding:6px 12px;border-radius:999px;cursor:pointer;transition:all .14s;white-space:nowrap}
+.fchip.on{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
+.fchip svg{width:9px;height:9px}
+.list-count-bar{padding:10px 16px 6px;font-size:12px;color:var(--tx3);font-weight:500;border-bottom:1px solid var(--border-lt)}
+.list-scroll{flex:1;overflow-y:auto}
+.litem{display:flex;gap:13px;padding:14px 16px;border-bottom:1px solid var(--border-lt);cursor:pointer;transition:background .12s}
+.litem:hover,.litem.sel{background:#F0F7FF}
+.litem.sel{border-left:3px solid var(--blue)}
+.litem-img{width:88px;height:70px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,#C0D8EE,#8CB8D6)}
+.litem-info{flex:1}
+.litem-price{font-size:15px;font-weight:700;color:var(--tx1);margin-bottom:2px}
+.litem-loc{font-size:12px;color:var(--tx2);margin-bottom:5px}
+.litem-specs{display:flex;gap:10px;font-size:11.5px;color:var(--tx3)}
+
+.map-panel{flex:1;position:relative;overflow:hidden;background:#E8F0F8}
+.map-grid{position:absolute;inset:0;background-color:#EBF2F9;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.9) 59px,rgba(255,255,255,.9) 63px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.9) 59px,rgba(255,255,255,.9) 63px),repeating-linear-gradient(0deg,transparent,transparent 19px,rgba(255,255,255,.45) 19px,rgba(255,255,255,.45) 20px),repeating-linear-gradient(90deg,transparent,transparent 19px,rgba(255,255,255,.45) 19px,rgba(255,255,255,.45) 20px)}
+.map-city{position:absolute;top:46%;left:44%;font-size:20px;font-weight:800;color:rgba(91,155,213,.3);pointer-events:none;letter-spacing:-.3px}
+.pb{position:absolute;background:var(--surface);border:1.5px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:700;color:var(--tx1);box-shadow:var(--sh-sm);cursor:pointer;transition:all .16s;white-space:nowrap}
+.pb::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%) rotate(45deg);width:8px;height:8px;background:inherit;border-right:1.5px solid var(--border);border-bottom:1.5px solid var(--border)}
+.pb:hover,.pb.sel{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 4px 14px rgba(91,155,213,.4)}
+.pb.sel::after{background:var(--blue);border-color:var(--blue)}
+.map-popup-card{position:absolute;bottom:20px;right:20px;width:210px;background:var(--surface);border-radius:14px;box-shadow:var(--sh-lg);overflow:hidden;border:1px solid var(--border-lt)}
+.mpc-img{width:100%;height:110px;background:linear-gradient(135deg,#C8DCF0,#9AC0DE);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.6)}
+.mpc-body{padding:11px 13px}
+.mpc-from{display:inline-block;font-size:9.5px;font-weight:700;color:var(--blue);background:var(--blue-soft);padding:2px 8px;border-radius:999px;margin-bottom:5px;letter-spacing:.03em}
+.mpc-price{font-size:14.5px;font-weight:800;color:var(--tx1);margin-bottom:2px}
+.mpc-loc{font-size:11px;color:var(--tx3);margin-bottom:9px}
+.mpc-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:7px;padding:8px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* ════════════════════════
+   PAGE 3 — CHAT
+════════════════════════ */
+#p3 .site-nav{position:sticky;top:46px;z-index:50}
+.chat-page{height:calc(100vh - 104px);display:flex;flex-direction:column}
+.chat-messages{flex:1;overflow-y:auto;background:var(--bg)}
+.chat-inner{max-width:720px;margin:0 auto;padding:32px 20px;display:flex;flex-direction:column;gap:18px}
+.cmsg{display:flex;gap:10px}
+.cmsg.user{flex-direction:row-reverse}
+.cav{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--blue-d));display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;color:#fff;margin-top:2px;box-shadow:0 2px 8px rgba(91,155,213,.28)}
+.cbw{display:flex;flex-direction:column;gap:4px;max-width:80%}
+.csender{font-size:11px;font-weight:600;color:var(--tx3);padding:0 4px}
+.cbbl{padding:12px 16px;border-radius:16px;font-size:14px;line-height:1.65}
+.cbbl.ai{background:var(--surface);color:var(--tx1);border:1px solid var(--border-lt);border-top-left-radius:4px;box-shadow:var(--sh-xs)}
+.cbbl.user{background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.qr-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.qrc{font-size:12.5px;font-weight:500;color:var(--blue);background:rgba(91,155,213,.07);border:1.5px solid rgba(91,155,213,.22);padding:7px 15px;border-radius:999px;cursor:pointer;transition:all .14s;font-family:inherit}
+.qrc:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.ccard-row{display:flex;gap:11px;overflow-x:auto;margin-top:11px;padding-bottom:4px;scrollbar-width:none}
+.ccard-row::-webkit-scrollbar{display:none}
+.ccard{flex-shrink:0;width:185px;background:var(--bg);border-radius:12px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:all .16s}
+.ccard:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.ccard-img{width:100%;height:105px;background:linear-gradient(135deg,#C8DCF0,#9AC0DE);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.6)}
+.ccard-body{padding:9px 11px}
+.ccard-price{font-size:13.5px;font-weight:700;color:var(--tx1)}
+.ccard-loc{font-size:10.5px;color:var(--tx3);margin-top:1px}
+.ccard-specs{font-size:10.5px;color:var(--tx3);margin-top:4px}
+.chat-bottom{background:var(--surface);border-top:1px solid var(--border-lt);padding:14px 20px;flex-shrink:0}
+.chat-bottom-inner{max-width:720px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.cinput{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;padding:12px 20px;font-size:14px;font-family:inherit;color:var(--tx1);outline:none;transition:border-color .14s}
+.cinput:focus{border-color:var(--blue)}
+.cinput::placeholder{color:var(--tx3)}
+.csend{width:42px;height:42px;border-radius:50%;background:var(--blue);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(91,155,213,.3);transition:background .14s}
+.csend:hover{background:var(--blue-d)}
+.csend svg{width:15px;height:15px;color:#fff}
+.chat-disc{max-width:720px;margin:6px auto 0;text-align:center;font-size:11px;color:var(--tx3)}
+
+/* ════════════════════════
+   PAGE 4 — DETAIL
+════════════════════════ */
+#p4{background:var(--bg)}
+.detail-wrap{max-width:1080px;margin:0 auto;padding:44px 32px 60px}
+.detail-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+.detail-img-sticky{position:sticky;top:110px}
+.detail-hero-img{width:100%;height:440px;border-radius:18px;overflow:hidden;background:linear-gradient(155deg,#BDD4E8,#8FBAD8,#6BA3C8);display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,.5);box-shadow:var(--sh-lg);position:relative}
+.detail-img-tag{position:absolute;bottom:14px;left:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:11.5px;font-weight:600;padding:5px 13px;border-radius:999px}
+.detail-r{}
+.d-type{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:7px}
+.d-title{font-size:28px;font-weight:800;letter-spacing:-.5px;color:var(--tx1);line-height:1.2;margin-bottom:6px}
+.d-loc{font-size:13.5px;color:var(--tx3);display:flex;align-items:center;gap:5px;margin-bottom:22px}
+.d-loc svg{width:13px;height:13px;color:var(--blue)}
+.d-price{font-size:33px;font-weight:800;letter-spacing:-.7px;color:var(--tx1);margin-bottom:3px}
+.d-price-sub{font-size:12.5px;color:var(--tx3);margin-bottom:26px}
+.d-specs-row{display:flex;gap:10px;margin-bottom:26px}
+.dspec{flex:1;background:var(--surface);border:1px solid var(--border-lt);border-radius:11px;padding:13px 16px;text-align:center}
+.dspec-val{font-size:20px;font-weight:800;color:var(--tx1)}
+.dspec-key{font-size:10px;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
+.d-hr{border:none;border-top:1px solid var(--border-lt);margin:0 0 20px}
+.d-desc{font-size:14px;color:var(--tx2);line-height:1.72;margin-bottom:20px}
+.d-feats{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:28px}
+.dfeat{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;color:var(--tx2);background:var(--surface);border:1px solid var(--border-lt);padding:6px 13px;border-radius:999px}
+.dfeat svg{width:12px;height:12px;color:var(--blue)}
+.d-cta{display:flex;gap:10px}
+.dcta1{flex:1;background:var(--blue);color:#fff;border:none;border-radius:11px;padding:14px;font-size:14.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .14s}
+.dcta1:hover{background:var(--blue-d)}
+.dcta2{background:var(--surface);color:var(--tx2);border:1.5px solid var(--border);border-radius:11px;padding:14px 18px;font-size:14.5px;font-weight:500;font-family:inherit;cursor:pointer;transition:all .14s}
+.dcta2:hover{background:var(--bg);color:var(--blue);border-color:var(--blue)}
+</style>
+</head>
+<body>
+
+<!-- Switcher -->
+<nav class="switcher">
+  <span class="sw-label">bAytI Preview</span>
+  <button class="sw-btn on" onclick="show('p1',this)">① Homepage</button>
+  <button class="sw-btn" onclick="show('p2',this)">② Map + List</button>
+  <button class="sw-btn" onclick="show('p3',this)">③ Chat</button>
+  <button class="sw-btn" onclick="show('p4',this)">④ Property Detail</button>
+  <span class="sw-note">Full-screen · each tab = one page</span>
+</nav>
+
+<!-- ══════════════════════
+     PAGE 1 — HOMEPAGE
+══════════════════════ -->
+<div id="p1" class="page active">
+  <nav class="site-nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      b<span class="b">A</span>yt<span class="b">I</span>
+    </a>
+    <div class="nav-links">
+      <a href="#">Home</a><a href="#">About us</a><a href="#">Contact</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <button class="btn-signup">Sign up</button>
+    </div>
+  </nav>
+
+  <!-- HERO: map background -->
+  <div class="hero-section">
+    <div class="map-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <!-- Price bubbles floating on map -->
+    <div class="map-pin-bubble" style="top:52%;left:55%">1 500 MAD/mo</div>
+    <div class="map-pin-dot" style="position:absolute;top:50%;left:57%;"></div>
+    <div class="map-pin-bubble" style="top:28%;left:68%">890 000 MAD</div>
+    <div class="map-pin-dot" style="position:absolute;top:26%;left:70%;"></div>
+    <div class="map-pin-bubble" style="top:38%;left:78%">12 000 MAD/mo</div>
+
+    <!-- map pin marker -->
+    <div style="position:absolute;top:38%;left:66%;width:18px;height:18px;background:var(--blue);border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(91,155,213,.5)"></div>
+
+    <!-- Title + search -->
+    <div class="hero-content">
+      <h1>Find the perfect property<br/>in Morocco</h1>
+      <p>Chat with an AI agent to discover<br/>your ideal home.</p>
+
+      <div class="search-widget">
+        <div class="search-tabs">
+          <button class="stab on">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Buy
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:10px;height:10px"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <button class="stab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            Rent
+          </button>
+        </div>
+        <div class="search-row">
+          <input class="search-city" type="text" placeholder="Enter a city or area"/>
+          <select class="search-select"><option>Property type</option><option>Apartment</option><option>Villa</option><option>Riad</option></select>
+          <select class="search-select"><option>Price</option><option>Under 1M MAD</option><option>1–3M MAD</option><option>3M+ MAD</option></select>
+          <button class="btn-search">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature strip -->
+  <div class="feature-strip">
+    <div class="feature-strip-inner">
+      <div class="feats-row">
+        <div class="feat-item">
+          <div class="feat-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="feat-label">Real estate<br/>AI agent</div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <div class="feat-label">Personalized<br/>advice</div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="feat-label">User-friendly<br/>search</div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="feat-label">Safe &amp;<br/>secure</div>
+        </div>
+      </div>
+
+      <!-- Chat CTA -->
+      <a href="#" onclick="show('p3',document.querySelectorAll('.sw-btn')[2]);return false" style="display:inline-flex;align-items:center;gap:9px;background:var(--blue-soft);border:1.5px solid rgba(91,155,213,.25);border-radius:14px;padding:14px 20px;text-decoration:none;transition:all .15s" onmouseover="this.style.background='var(--blue)';this.style.borderColor='var(--blue)';this.querySelectorAll('*').forEach(el=>el.style.color='#fff')" onmouseout="this.style.background='var(--blue-soft)';this.style.borderColor='rgba(91,155,213,.25)';this.querySelectorAll('*').forEach(el=>el.style.color='')">
+        <div style="width:38px;height:38px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13.5px;font-weight:700;color:var(--tx1)">Chat with bAytI</div>
+          <div style="font-size:12px;color:var(--tx3)">Ask our AI advisor anything</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Property cards -->
+  <div class="listings-section">
+    <div class="prop-cards-grid">
+      <div class="prop-card">
+        <div class="card-img"><div class="card-img-overlay"></div>📸 Guéliz, Marrakech</div>
+        <div class="card-info">
+          <div class="card-price"><strong>1 500 000</strong> MAD</div>
+          <div class="card-loc">Guéliz, Marrakech</div>
+          <div class="card-specs">
+            <span class="card-spec">2 bedrooms</span>
+            <span class="card-spec"><span class="card-spec-dot"></span> 90 m²</span>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="card-img"><div class="card-img-overlay"></div>📸 Hivernage, Marrakech</div>
+        <div class="card-info">
+          <div class="card-price"><strong>12 000</strong> MAD <span>/mo</span></div>
+          <div class="card-loc">Hivernage, Marrakech</div>
+          <div class="card-specs">
+            <span class="card-spec">4 bedrooms</span>
+            <span class="card-spec"><span class="card-spec-sq"></span> 300 m²</span>
+          </div>
+        </div>
+      </div>
+      <div class="prop-card">
+        <div class="card-img"><div class="card-img-overlay"></div>📸 Medina, Marrakech</div>
+        <div class="card-info">
+          <div class="card-price"><strong>8 600 000</strong> MAD</div>
+          <div class="card-loc">Medina, Marrakech</div>
+          <div class="card-specs">
+            <span class="card-spec">3 bedrooms</span>
+            <span class="card-spec"><span class="card-spec-sq"></span> 600 m²</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view-all">
+      View all 248 properties
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════
+     PAGE 2 — MAP + LIST
+══════════════════════ -->
+<div id="p2" class="page">
+  <nav class="site-nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      b<span class="b">A</span>yt<span class="b">I</span>
+    </a>
+    <div class="nav-links"><a href="#">Home</a><a href="#">About us</a><a href="#">Contact</a></div>
+    <div class="nav-right">
+      <div class="nav-search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+      <button class="btn-signup">Sign up</button>
+    </div>
+  </nav>
+  <div class="split-wrap">
+    <div class="list-panel">
+      <div class="list-filters">
+        <div class="fchip on">Buy <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="fchip">Rent</div>
+        <div class="fchip">Property type <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="fchip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/></svg> Price <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="list-count-bar">24 properties in Marrakech</div>
+      <div class="list-scroll">
+        <div class="litem sel">
+          <div class="litem-img" style="background:linear-gradient(135deg,#B0CCE4,#85AECE)"></div>
+          <div class="litem-info"><div class="litem-price">1 300 340 MAD</div><div class="litem-loc">Guéliz, Marrakech</div><div class="litem-specs"><span>2 bedrooms</span><span>·</span><span>90 m²</span></div></div>
+        </div>
+        <div class="litem">
+          <div class="litem-img" style="background:linear-gradient(135deg,#C0D8EE,#8CB8D6)"></div>
+          <div class="litem-info"><div class="litem-price">1 500 000 MAD</div><div class="litem-loc">Guéliz, Marrakech</div><div class="litem-specs"><span>2 bedrooms</span><span>·</span><span>90 m²</span></div></div>
+        </div>
+        <div class="litem">
+          <div class="litem-img" style="background:linear-gradient(135deg,#BAD5EC,#8BBAD4)"></div>
+          <div class="litem-info"><div class="litem-price">850 000 MAD</div><div class="litem-loc">Médina, Marrakech</div><div class="litem-specs"><span>3 bedrooms</span><span>·</span><span>120 m²</span></div></div>
+        </div>
+        <div class="litem">
+          <div class="litem-img" style="background:linear-gradient(135deg,#C8E0F2,#9DBFE0)"></div>
+          <div class="litem-info"><div class="litem-price">12 000 MAD/mo</div><div class="litem-loc">Hivernage, Marrakech</div><div class="litem-specs"><span>4 bedrooms</span><span>·</span><span>530 m²</span></div></div>
+        </div>
+        <div class="litem">
+          <div class="litem-img" style="background:linear-gradient(135deg,#BED4EA,#90BADA)"></div>
+          <div class="litem-info"><div class="litem-price">6 900 000 MAD</div><div class="litem-loc">Palmeraie, Marrakech</div><div class="litem-specs"><span>5 bedrooms</span><span>·</span><span>600 m²</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="map-panel">
+      <div class="map-grid"></div>
+      <div class="map-city">Marrakech</div>
+      <div class="pb sel" style="top:34%;left:32%">1 300 340 MAD</div>
+      <div class="pb" style="top:22%;left:52%">7 200 MAD/mo</div>
+      <div class="pb" style="top:50%;left:22%">2 300 MAD</div>
+      <div class="pb" style="top:60%;left:48%">12 000 MAD/mo</div>
+      <div class="pb" style="top:36%;left:66%">890 000 MAD</div>
+      <div class="map-popup-card">
+        <div class="mpc-img">📸 Property photo</div>
+        <div class="mpc-body"><div class="mpc-from">From your search</div><div class="mpc-price">1 300 340 MAD</div><div class="mpc-loc">Guéliz, Marrakech · 2 bed · 90 m²</div><button class="mpc-btn">View Details →</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     PAGE 3 — CHAT
+══════════════════════ -->
+<div id="p3" class="page">
+  <nav class="site-nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      b<span class="b">A</span>yt<span class="b">I</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button style="font-size:12px;color:var(--tx3);background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:999px;font-family:inherit">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.01-3.96L1 10"/></svg> New chat
+      </button>
+    </div>
+  </nav>
+  <div class="chat-page">
+    <div class="chat-messages">
+      <div class="chat-inner">
+        <div class="cmsg"><div class="cav">bI</div><div class="cbw"><div class="csender">bAytI</div><div class="cbbl ai"><strong>Welcome to bAytI!</strong><br/>Here to help you find your ideal home in Morocco. What are you looking for today?</div></div></div>
+        <div class="cmsg user"><div class="cbw"><div class="cbbl user">I'm looking for something nice in Marrakech, not too expensive, in a good area, but I'm not sure where exactly.</div></div></div>
+        <div class="cmsg"><div class="cav">bI</div><div class="cbw"><div class="csender">bAytI</div><div class="cbbl ai">Got it. About what budget are you considering? And is this to live in or as an investment?</div><div class="qr-row"><button class="qrc">Live in 🏠</button><button class="qrc">Investment 📈</button><button class="qrc">Not sure yet</button></div></div></div>
+        <div class="cmsg user"><div class="cbw"><div class="cbbl user">To live in, budget around 1.5M MAD</div></div></div>
+        <div class="cmsg"><div class="cav">bI</div><div class="cbw"><div class="csender">bAytI</div><div class="cbbl ai">Here are some properties in Marrakech that might interest you — Guéliz fits that modern-calm feel really well at your budget.
+          <div class="ccard-row">
+            <div class="ccard"><div class="ccard-img">📸</div><div class="ccard-body"><div class="ccard-price">1 500 000 MAD</div><div class="ccard-loc">Guéliz, Marrakech</div><div class="ccard-specs">2 bed · 90 m²</div></div></div>
+            <div class="ccard"><div class="ccard-img">📸</div><div class="ccard-body"><div class="ccard-price">12 000 MAD/mo</div><div class="ccard-loc">Hivernage, Marrakech</div><div class="ccard-specs">4 bed · 530 m²</div></div></div>
+            <div class="ccard"><div class="ccard-img">📸</div><div class="ccard-body"><div class="ccard-price">8 500 MAD/mo</div><div class="ccard-loc">Médina, Marrakech</div><div class="ccard-specs">3 bed · 120 m²</div></div></div>
+          </div>
+          <div class="qr-row" style="margin-top:10px"><button class="qrc">More options</button><button class="qrc">Adjust budget</button><button class="qrc">Different city</button><button class="qrc" style="display:inline-flex;align-items:center;gap:4px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>View on Map</button></div>
+        </div></div></div>
+      </div>
+    </div>
+    <div class="chat-bottom">
+      <div class="chat-bottom-inner">
+        <input class="cinput" type="text" placeholder="Type a message…"/>
+        <button class="csend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+      <div class="chat-disc">bAytI may occasionally make mistakes. Always verify details before making decisions.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     PAGE 4 — DETAIL
+══════════════════════ -->
+<div id="p4" class="page">
+  <nav class="site-nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      b<span class="b">A</span>yt<span class="b">I</span>
+    </a>
+    <div class="nav-links"><a href="#">Home</a><a href="#">Properties</a><a href="#">About us</a></div>
+    <div class="nav-right">
+      <a href="#" style="font-size:13px;color:var(--tx2);text-decoration:none">← Back</a>
+      <button class="btn-signup">Sign up</button>
+    </div>
+  </nav>
+  <div class="detail-wrap">
+    <div class="detail-grid">
+      <div class="detail-img-sticky">
+        <div class="detail-hero-img">📸 Property photography<div class="detail-img-tag">Apartment · Guéliz</div></div>
+      </div>
+      <div class="detail-r">
+        <div class="d-type">Apartment</div>
+        <h1 class="d-title">Modern apartment in the heart of Guéliz</h1>
+        <div class="d-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Guéliz, Marrakech · Available now</div>
+        <div class="d-price">1 500 000 MAD</div>
+        <div class="d-price-sub">≈ €140 000 · Freehold</div>
+        <div class="d-specs-row">
+          <div class="dspec"><div class="dspec-val">2</div><div class="dspec-key">Bedrooms</div></div>
+          <div class="dspec"><div class="dspec-val">1</div><div class="dspec-key">Bathrooms</div></div>
+          <div class="dspec"><div class="dspec-val">90</div><div class="dspec-key">m²</div></div>
+          <div class="dspec"><div class="dspec-val">3rd</div><div class="dspec-key">Floor</div></div>
+        </div>
+        <hr class="d-hr"/>
+        <p class="d-desc">A bright and modern apartment located in the heart of Guéliz. Walking distance to cafes, shops, and public transport. Fully renovated with high-quality finishes throughout. Ideal for comfortable urban living or as a rental investment.</p>
+        <div class="d-feats">
+          <div class="dfeat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4h20v10H2z"/></svg>Bedrooms</div>
+          <div class="dfeat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22V12a9 9 0 0118 0v10"/></svg>Bathroom</div>
+          <div class="dfeat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>Balcony</div>
+          <div class="dfeat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Security</div>
+          <div class="dfeat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Renovated</div>
+        </div>
+        <div class="d-cta">
+          <button class="dcta1">Contact agent</button>
+          <button class="dcta2">Ask bAytI ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sw-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('on');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

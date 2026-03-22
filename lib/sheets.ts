@@ -12,6 +12,64 @@ import { SAMPLE_PROPERTIES } from './properties';
 
 type SheetRow = string[];
 
+// ── Pre-computed property index (the "vectorised" layer) ──────────────────────
+// Built once when properties are loaded; lets route handlers do O(1) lookups
+// instead of scanning the full array on every chat message.
+export interface PropertyIndex {
+  all:        Property[];
+  available:  Property[];
+  byCity:     Record<string, Property[]>;   // city.toLowerCase() → properties
+  byType:     Record<string, Property[]>;   // type.toLowerCase() → properties
+  byCityType: Record<string, Property[]>;   // `${city}|${type}` → properties
+  priceRange: { min: number; max: number; avg: number };
+  cities:     string[];
+  types:      string[];
+}
+
+function buildIndex(properties: Property[]): PropertyIndex {
+  const available = properties.filter(p => p.available);
+
+  const byCity:     Record<string, Property[]> = {};
+  const byType:     Record<string, Property[]> = {};
+  const byCityType: Record<string, Property[]> = {};
+
+  for (const p of available) {
+    const city = p.city.toLowerCase();
+    const type = p.type.toLowerCase();
+    const key  = `${city}|${type}`;
+
+    if (!byCity[city])     byCity[city]     = [];
+    if (!byType[type])     byType[type]     = [];
+    if (!byCityType[key])  byCityType[key]  = [];
+
+    byCity[city].push(p);
+    byType[type].push(p);
+    byCityType[key].push(p);
+  }
+
+  const prices    = available.map(p => p.price).filter(Boolean);
+  const priceRange = prices.length
+    ? { min: Math.min(...prices), max: Math.max(...prices), avg: prices.reduce((a, b) => a + b, 0) / prices.length }
+    : { min: 0, max: 0, avg: 0 };
+
+  return {
+    all:        properties,
+    available,
+    byCity,
+    byType,
+    byCityType,
+    priceRange,
+    cities:     [...new Set(available.map(p => p.city))].sort(),
+    types:      [...new Set(available.map(p => p.type))].sort(),
+  };
+}
+
+// ── Module-level cache (persists across warm Vercel invocations) ──────────────
+// TTL: 5 minutes — fresh enough for a demo, fast enough to not slow chat.
+let _cache:          PropertyIndex | null = null;
+let _cacheTimestamp  = 0;
+const CACHE_TTL_MS   = 5 * 60 * 1_000;
+
 function rowToProperty(row: SheetRow): Property | null {
   try {
     const [
@@ -107,4 +165,33 @@ export async function fetchPropertiesFromSheets(): Promise<Property[]> {
 
   console.warn('[Bayit] No Google Sheets credentials found – using sample data.');
   return SAMPLE_PROPERTIES;
+}
+
+/**
+ * getPropertyIndex()
+ *
+ * Returns a pre-built, indexed, cached snapshot of all properties.
+ * First call fetches from Sheets; subsequent calls within the TTL window
+ * return instantly from the module-level cache — no Sheets API round-trip.
+ *
+ * This is called:
+ *   1. From /api/warmup on page load (pre-warms the cache)
+ *   2. From /api/chat on every message (hits cache, not Sheets)
+ */
+export async function getPropertyIndex(): Promise<PropertyIndex> {
+  const now = Date.now();
+  if (_cache && (now - _cacheTimestamp) < CACHE_TTL_MS) {
+    return _cache;
+  }
+  const fresh = await fetchPropertiesFromSheets();
+  _cache = buildIndex(fresh);
+  _cacheTimestamp = now;
+  console.log(`[Bayit] Property index built: ${_cache.available.length} available of ${fresh.length} total`);
+  return _cache;
+}
+
+/** Convenience wrapper — just returns the flat array (most callers only need this) */
+export async function getProperties(): Promise<Property[]> {
+  const index = await getPropertyIndex();
+  return index.all;
 }

@@ -18,7 +18,7 @@ const STEPS = [
     title: 'AI Analyses & Matches',
     description:
       'Our assistant instantly scans the full property database, understands your context, and shortlists the most relevant options, powered by OpenAI.',
-    color: 'from-bayit-gold-dark to-bayit-gold',
+    color: 'from-bayit-blue-dark to-bayit-blue',
   },
   {
     icon: LayoutGrid,
@@ -34,14 +34,14 @@ export default function HowItWorks() {
   const { openChat } = useChatContext();
 
   return (
-    <section id="how-it-works" className="py-24 bg-white">
+    <section id="how-it-works" className="py-24 bg-bayit-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* Header */}
         <div className="text-center mb-16">
           <span className="section-badge mb-4">Simple Process</span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-bayit-dark mt-3">
-            How Bayit Works
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-bayit-dark mt-3">
+            How bAytI Works
           </h2>
           <p className="text-bayit-gray mt-4 max-w-lg mx-auto text-lg">
             Finding your dream property in Morocco has never been this effortless.
@@ -51,15 +51,15 @@ export default function HowItWorks() {
         {/* Steps */}
         <div className="grid md:grid-cols-3 gap-8 relative">
           {/* Connector line (desktop) */}
-          <div className="hidden md:block absolute top-10 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-bayit-blue via-bayit-gold to-bayit-blue opacity-20" />
+          <div className="hidden md:block absolute top-10 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-bayit-blue via-bayit-blue-light to-bayit-blue opacity-20" />
 
           {STEPS.map(({ icon: Icon, step, title, description, color }) => (
             <div
               key={step}
-              className="group relative bg-bayit-cream rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-bayit-border"
+              className="group relative bg-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-bayit-border"
             >
               {/* Step number */}
-              <div className="text-5xl font-bold text-bayit-gold/15 absolute top-4 right-6 select-none">
+              <div className="text-5xl font-bold text-bayit-blue/10 absolute top-4 right-6 select-none">
                 {step}
               </div>
 

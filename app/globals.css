@@ -2,122 +2,191 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Google Fonts ─────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Fonts loaded via next/font/google in layout.tsx — no @import needed */
 
-/* ── CSS Variables ──────────────────────────────────────────────────────────── */
+/* ── CSS Variables ─────────────────────────────────────────────────────── */
 :root {
-  --bayit-blue:       #1A3D6B;
-  --bayit-blue-light: #2B5BA8;
-  --bayit-blue-dark:  #0D2540;
-  --bayit-gold:       #C8973F;
-  --bayit-gold-light: #DEB266;
-  --bayit-cream:      #F8F3EB;
-  --bayit-dark:       #0D1B2A;
-  --bayit-gray:       #5A6472;
-  --bayit-border:     #E5E0D8;
+  --bayit-blue:        #5B9BD5;
+  --bayit-blue-dark:   #4A84BE;
+  --bayit-blue-light:  #7FB3E0;
+  --bayit-blue-soft:   #EBF4FC;
+  --bayit-blue-softer: #F0F7FF;
+  --bayit-bg:          #F4F7FA;
+  --bayit-surface:     #FFFFFF;
+  --bayit-surface2:    #F8FAFB;
+  --bayit-dark:        #1A1C2E;
+  --bayit-gray:        #5A6072;
+  --bayit-muted:       #9BA3AF;
+  --bayit-border:      #E4E8EF;
+  --bayit-border-lt:   #F0F3F7;
+  /* Warm luxury tokens */
+  --bayit-cream:       #FAF7F2;
+  --bayit-cream-dark:  #EDE8E0;
+  --bayit-gold:        #C9A96E;
+  --bayit-gold-light:  #E8D5B0;
+  --bayit-gold-muted:  #F5EFE3;
 }
 
-/* ── Base ──────────────────────────────────────────────────────────────────── */
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+/* ── Base ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: var(--bayit-cream);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  background-color: #fff;
   color: var(--bayit-dark);
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar        { width: 6px; height: 6px; }
-::-webkit-scrollbar-track  { background: #f1f1f1; border-radius: 3px; }
-::-webkit-scrollbar-thumb  { background: var(--bayit-gold); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--bayit-gold-light); }
-
-/* ── Moroccan geometric pattern (used as section dividers) ─────────────────── */
-.moroccan-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23C8973F' stroke-width='0.5' opacity='0.15'/%3E%3Cpath d='M30 10L50 30L30 50L10 30Z' fill='none' stroke='%23C8973F' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+/* Serif headings — the primary luxury signal */
+h1, h2, h3 {
+  font-family: var(--font-playfair), Georgia, serif;
+  letter-spacing: -0.01em;
 }
 
-/* ── Section headings ───────────────────────────────────────────────────────── */
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--bayit-bg); border-radius: 3px; }
+::-webkit-scrollbar-thumb  { background: var(--bayit-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--bayit-muted); }
+
+/* ── Section badge ─────────────────────────────────────────────────────── */
+/* Warm gold tone — feels premium, not tech-blue */
 .section-badge {
   @apply inline-block text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-full;
-  background: rgba(200, 151, 63, 0.12);
-  color: var(--bayit-gold);
-  border: 1px solid rgba(200, 151, 63, 0.25);
+  background: var(--bayit-gold-muted);
+  color: #8B6914;
+  border: 1px solid var(--bayit-gold-light);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
 
-/* ── Chat panel ─────────────────────────────────────────────────────────────── */
-.chat-panel {
-  box-shadow: -4px 0 40px rgba(13, 27, 42, 0.18);
-}
-
-/* ── Property card hover ────────────────────────────────────────────────────── */
+/* ── Property card ─────────────────────────────────────────────────────── */
 .property-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 .property-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(13, 27, 42, 0.14);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(26,28,46,0.10);
 }
 
-/* ── Chat message bubbles ───────────────────────────────────────────────────── */
+/* ── Quick reply chips ─────────────────────────────────────────────────── */
+.quick-reply-chip {
+  @apply text-xs font-medium px-3.5 py-1.5 rounded-full border transition-all cursor-pointer select-none;
+  color: var(--bayit-blue);
+  border-color: rgba(91,155,213,0.30);
+  background: rgba(91,155,213,0.06);
+}
+.quick-reply-chip:hover {
+  background: var(--bayit-blue);
+  color: #fff;
+  border-color: var(--bayit-blue);
+}
+
+/* ── Chat bubbles ──────────────────────────────────────────────────────── */
 .bubble-user {
   background: var(--bayit-blue);
   color: #fff;
-  border-radius: 18px 18px 4px 18px;
+  border-radius: 16px 16px 4px 16px;
 }
-
 .bubble-assistant {
-  background: #fff;
+  background: var(--bayit-surface);
   color: var(--bayit-dark);
-  border: 1px solid var(--bayit-border);
-  border-radius: 18px 18px 18px 4px;
+  border: 1px solid var(--bayit-border-lt);
+  border-radius: 16px 16px 16px 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* ── Leaflet fixes inside Next.js ───────────────────────────────────────────── */
-.leaflet-container {
-  z-index: 0;
-  border-radius: 16px;
-}
-
-/* ── Gold gradient text ─────────────────────────────────────────────────────── */
-.text-gradient-gold {
-  background: linear-gradient(135deg, #A67A2E 0%, #C8973F 50%, #DEB266 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Typing dots animation ──────────────────────────────────────────────────── */
+/* ── Typing dots ───────────────────────────────────────────────────────── */
 .typing-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--bayit-gray);
+  background: var(--bayit-muted);
   animation: typingBounce 1.4s ease-in-out infinite;
 }
 .typing-dot:nth-child(1) { animation-delay: 0s; }
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
 .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
 @keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30%            { transform: translateY(-6px); opacity: 1; }
+  0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+  30%         { transform: translateY(-5px); opacity: 1; }
 }
 
-/* ── Chat button pulse ──────────────────────────────────────────────────────── */
-.chat-fab {
-  animation: pulseGold 2.5s ease-in-out infinite;
+/* ── Price bubble (map marker) ─────────────────────────────────────────── */
+/* iconSize:[0,0] + iconAnchor:[0,0] puts the Leaflet origin at lat/lng.    */
+/* The CSS transform centres the pill horizontally and lifts it above        */
+/* the point so it doesn't overlap map labels below.                         */
+.price-bubble-marker {
+  transform: translate(-50%, -100%) translateY(-6px);
+  display: inline-block;
+
+  background: #fff;
+  border: 1.5px solid var(--bayit-border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--bayit-dark);
+  white-space: nowrap;
+  /* Stronger shadow creates a clear halo so the pill reads over map text */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18), 0 0 0 2px #fff;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
-@keyframes pulseGold {
-  0%,100% { box-shadow: 0 0 0 0 rgba(200,151,63,0.5); }
-  50%      { box-shadow: 0 0 0 14px rgba(200,151,63,0); }
+.price-bubble-marker:hover,
+.price-bubble-marker.selected {
+  background: var(--bayit-blue);
+  color: #fff;
+  border-color: var(--bayit-blue);
+  box-shadow: 0 4px 14px rgba(91,155,213,0.45), 0 0 0 2px #fff;
 }
+
+/* Strip Leaflet's default white-box from the price bubble wrapper */
+.leaflet-price-bubble-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Leaflet overrides ─────────────────────────────────────────────────── */
+.leaflet-container {
+  z-index: 0;
+  border-radius: 0;
+  font-family: 'Inter', sans-serif !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 14px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.08) !important;
+  border: 1px solid var(--bayit-border) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+/* Let the inner content div control all padding/spacing */
+.leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+  padding: 0 !important;
+  line-height: normal !important;
+}
+/* Hide the little triangular tip — clean floating card look */
+.leaflet-popup-tip-container { display: none !important; }
+
+/* ── Map background grid ───────────────────────────────────────────────── */
+.map-bg-grid {
+  background-color: #EBF2F9;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.85) 59px, rgba(255,255,255,0.85) 63px),
+    repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.85) 59px, rgba(255,255,255,0.85) 63px),
+    repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255,255,255,0.40) 19px, rgba(255,255,255,0.40) 20px),
+    repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255,255,255,0.40) 19px, rgba(255,255,255,0.40) 20px);
+}
+
+/* ── Gradient text ─────────────────────────────────────────────────────── */
+.text-gradient-blue {
+  background: linear-gradient(135deg, var(--bayit-blue-dark) 0%, var(--bayit-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+/* legacy alias */
+.text-gradient-gold { @apply text-gradient-blue; }

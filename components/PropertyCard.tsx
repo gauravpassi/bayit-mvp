@@ -2,16 +2,11 @@ import Image from 'next/image';
 import { Bed, Bath, Maximize2, MapPin } from 'lucide-react';
 import type { Property } from '@/types';
 import { formatPrice } from '@/lib/properties';
+import { usePropertyModal } from '@/contexts/PropertyModalContext';
 import clsx from 'clsx';
 
-const TYPE_COLORS: Record<string, string> = {
-  Apartment: 'bg-blue-100 text-blue-700',
-  Villa:     'bg-emerald-100 text-emerald-700',
-  Riad:      'bg-amber-100 text-amber-700',
-  Studio:    'bg-purple-100 text-purple-700',
-  Penthouse: 'bg-rose-100 text-rose-700',
-  House:     'bg-teal-100 text-teal-700',
-};
+// Unified warm parchment badge — restrained, not rainbow
+const TYPE_BADGE = 'bg-[#F5EFE3] text-[#7C6336] border border-[#E8DDD0]';
 
 interface PropertyCardProps {
   property: Property;
@@ -21,11 +16,13 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property, compact = false }: PropertyCardProps) {
   const { title, city, neighborhood, price, type, bedrooms, bathrooms, areaSqm, imageUrl } = property;
+  const { openModal } = usePropertyModal();
 
   return (
     <div
+      onClick={() => openModal(property)}
       className={clsx(
-        'property-card bg-white rounded-xl overflow-hidden border border-bayit-border shadow-sm',
+        'property-card bg-white rounded-xl overflow-hidden border border-bayit-border shadow-sm cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200',
         compact ? 'w-64 shrink-0' : 'w-full'
       )}
     >
@@ -41,8 +38,8 @@ export default function PropertyCard({ property, compact = false }: PropertyCard
         {/* Type badge over image */}
         <span
           className={clsx(
-            'absolute top-3 left-3 text-xs font-semibold px-2 py-1 rounded-full',
-            TYPE_COLORS[type] ?? 'bg-gray-100 text-gray-700'
+            'absolute top-3 left-3 text-xs font-medium px-2.5 py-1 rounded-full',
+            TYPE_BADGE
           )}
         >
           {type}
@@ -68,7 +65,7 @@ export default function PropertyCard({ property, compact = false }: PropertyCard
         </h3>
 
         {/* Price */}
-        <div className="text-bayit-gold font-bold text-lg mb-3">
+        <div className="text-bayit-blue font-bold text-lg mb-3">
           {formatPrice(price)}
         </div>
 
